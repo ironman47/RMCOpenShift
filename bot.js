@@ -10,7 +10,7 @@ const dataService = require('./dataService');
 const express = require('express');
 const expressApp = express();
 
-const port = process.env.PORT || 3000
+const port = process.env.OPENSHIFT_NODEJS_PORT || 3000
 expressApp.get('/', (req, res) => {
   res.send('Hello World!')
 })
