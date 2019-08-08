@@ -50,7 +50,7 @@ At the moment, I can only count integers, if you want to add your own number sys
 
 const incNMsg = `Please input with number diu nei`;
 
-const donateErrMsg = `We do not have enough stock, diu nei.`
+const donateErrMsg = `We do not have enough stock, diu nei.`;
 
 const aboutMsg = "This bot modified from the bot that was created by @LeoDJ\nSource code and contact information can be found at https://github.com/LeoDJ/telegram-counter-bot";
 
