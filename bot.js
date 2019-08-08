@@ -281,10 +281,11 @@ bot.hears(getRegExp('donatecap'), ctx => {
 	} else {
         val = donateErrMsg;
     }
+	}
 	} else {
 		val = incNMsg;
 	}
-	}
+	
 	
 	logOutMsg(ctx, val);
 	ctx.reply(val);
@@ -337,10 +338,11 @@ bot.hears(getRegExp('donatemask'), ctx => {
 	} else {
         val = donateErrMsg;
     }
+	}
 	} else {
 		val = incNMsg;
 	}
-	}
+	
 	
     logOutMsg(ctx, val);
     ctx.reply(val);
@@ -392,10 +394,11 @@ bot.hears(getRegExp('donatefilter'), ctx => {
 	} else {
         val = donateErrMsg;
     }
+	}
 	} else {
 		val = incNMsg;
 	}
-	}
+	
 	
     logOutMsg(ctx, val);
     ctx.reply(val);
