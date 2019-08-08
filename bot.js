@@ -161,7 +161,7 @@ bot.hears(getRegExp('inccap'), ctx => {
         delta = Math.floor(params[1]);
     
 		if (delta < 0) {
-			val = `Please enter positive numbers.`
+			val = `Please enter positive numbers.`;
 		} else {
 			var val = +dataService.getCounter(ctx.chat.id, counterId);
 			val += delta;
@@ -188,7 +188,7 @@ bot.hears(getRegExp('incmask'), ctx => {
         delta = Math.floor(params[1]);
     
 		if (delta < 0) {
-			val = `Please enter positive numbers.`
+			val = `Please enter positive numbers.`;
 		} else {
 			var val = +dataService.getCounter(ctx.chat.id, counterId);
 			val += delta;
@@ -217,7 +217,7 @@ bot.hears(getRegExp('incfilter'), ctx => {
         delta = Math.floor(params[1]);
     
 		if (delta < 0) {
-			val = `Please enter positive numbers.`
+			val = `Please enter positive numbers.`;
 		} else {
 			var val = +dataService.getCounter(ctx.chat.id, counterId);
 			val += delta;
@@ -264,7 +264,7 @@ bot.hears(getRegExp('donatecap'), ctx => {
 	var donatecounterID = 'donatedcap' + today
 	
 	if (delta < 0) {
-		val = `Please enter positive numbers.`
+		val = `Please enter positive numbers.`;
 	} else {
     var val = +dataService.getCounter(ctx.chat.id, counterId);
     val -= delta;
@@ -320,7 +320,7 @@ bot.hears(getRegExp('donatemask'), ctx => {
 	var donatecounterID = 'donatedmask' + today
 	
 	if (delta < 0) {
-		val = `Please enter positive numbers.`
+		val = `Please enter positive numbers.`;
 	} else {
     var val = +dataService.getCounter(ctx.chat.id, counterId);
     val -= delta;
@@ -375,7 +375,7 @@ bot.hears(getRegExp('donatefilter'), ctx => {
 	var donatecounterID = 'donatedfilter' + today
 
 	if (delta < 0) {
-		val = `Please enter positive numbers.`
+		val = `Please enter positive numbers.`;
 	} else {
     var val = +dataService.getCounter(ctx.chat.id, counterId);
     val -= delta;
