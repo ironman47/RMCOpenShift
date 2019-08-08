@@ -184,6 +184,8 @@ bot.hears(getRegExp('incmask'), ctx => {
     var m = ctx.message.text.match(getRegExp(currentCommand))[0]; //filter command
     var counterId = 'mask'; //get id of command, return 0 if not found
 
+    var delta = 1;
+    params = ctx.message.text.split(" ");
     if (params.length == 2 && !isNaN(params[1])) {
         delta = Math.floor(params[1]);
     
