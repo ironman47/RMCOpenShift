@@ -160,12 +160,16 @@ bot.hears(getRegExp('inccap'), ctx => {
     if (params.length == 2 && !isNaN(params[1])) {
         delta = Math.floor(params[1]);
     
-		var val = +dataService.getCounter(ctx.chat.id, counterId);
-		val += delta;
-		dataService.setCounter(ctx.chat.id, counterId, val);
+		if (delta < 0) {
+			val = `Please enter positive numbers.`
+		} else {
+			var val = +dataService.getCounter(ctx.chat.id, counterId);
+			val += delta;
+			dataService.setCounter(ctx.chat.id, counterId, val);
 
-		var printCounterId = counterId ? "[" + counterId + "] " : "";
-		val = printCounterId + val;
+			var printCounterId = counterId ? "[" + counterId + "] " : "";
+			val = printCounterId + val;
+		}
     } else {
 		val = incNMsg;
 	}
@@ -183,12 +187,16 @@ bot.hears(getRegExp('incmask'), ctx => {
     if (params.length == 2 && !isNaN(params[1])) {
         delta = Math.floor(params[1]);
     
-		var val = +dataService.getCounter(ctx.chat.id, counterId);
-		val += delta;
-		dataService.setCounter(ctx.chat.id, counterId, val);
+		if (delta < 0) {
+			val = `Please enter positive numbers.`
+		} else {
+			var val = +dataService.getCounter(ctx.chat.id, counterId);
+			val += delta;
+			dataService.setCounter(ctx.chat.id, counterId, val);
 
-		var printCounterId = counterId ? "[" + counterId + "] " : "";
-		val = printCounterId + val;
+			var printCounterId = counterId ? "[" + counterId + "] " : "";
+			val = printCounterId + val;
+		}
     } else {
 		val = incNMsg;
 	}
@@ -208,12 +216,16 @@ bot.hears(getRegExp('incfilter'), ctx => {
     if (params.length == 2 && !isNaN(params[1])) {
         delta = Math.floor(params[1]);
     
-		var val = +dataService.getCounter(ctx.chat.id, counterId);
-		val += delta;
-		dataService.setCounter(ctx.chat.id, counterId, val);
+		if (delta < 0) {
+			val = `Please enter positive numbers.`
+		} else {
+			var val = +dataService.getCounter(ctx.chat.id, counterId);
+			val += delta;
+			dataService.setCounter(ctx.chat.id, counterId, val);
 
-		var printCounterId = counterId ? "[" + counterId + "] " : "";
-		val = printCounterId + val;
+			var printCounterId = counterId ? "[" + counterId + "] " : "";
+			val = printCounterId + val;
+		}
     } else {
 		val = incNMsg;
 	}
@@ -251,6 +263,9 @@ bot.hears(getRegExp('donatecap'), ctx => {
     
 	var donatecounterID = 'donatedcap' + today
 	
+	if (delta < 0) {
+		val = `Please enter positive numbers.`
+	} else {
     var val = +dataService.getCounter(ctx.chat.id, counterId);
     val -= delta;
 	if(val>0) {
@@ -268,6 +283,7 @@ bot.hears(getRegExp('donatecap'), ctx => {
     }
 	} else {
 		val = incNMsg;
+	}
 	}
 	
 	logOutMsg(ctx, val);
@@ -303,6 +319,9 @@ bot.hears(getRegExp('donatemask'), ctx => {
 
 	var donatecounterID = 'donatedmask' + today
 	
+	if (delta < 0) {
+		val = `Please enter positive numbers.`
+	} else {
     var val = +dataService.getCounter(ctx.chat.id, counterId);
     val -= delta;
 	if(val>0) {
@@ -320,6 +339,7 @@ bot.hears(getRegExp('donatemask'), ctx => {
     }
 	} else {
 		val = incNMsg;
+	}
 	}
 	
     logOutMsg(ctx, val);
@@ -354,6 +374,9 @@ bot.hears(getRegExp('donatefilter'), ctx => {
 
 	var donatecounterID = 'donatedfilter' + today
 
+	if (delta < 0) {
+		val = `Please enter positive numbers.`
+	} else {
     var val = +dataService.getCounter(ctx.chat.id, counterId);
     val -= delta;
 	if(val>0) {
@@ -371,6 +394,7 @@ bot.hears(getRegExp('donatefilter'), ctx => {
     }
 	} else {
 		val = incNMsg;
+	}
 	}
 	
     logOutMsg(ctx, val);
