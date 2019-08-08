@@ -48,7 +48,9 @@ Hm, that wasn't supposed to happen. You didn't input invalid characters, did you
 The usage for this command is \"/set x\", where x is a number.
 At the moment, I can only count integers, if you want to add your own number system, please feel free to do so. Just click here: /about `;
 
-const incNMsg = ``;
+const incNMsg = `Please input with number diu nei`;
+
+const donateErrMsg = `We do not have enough stock, diu nei.`
 
 const aboutMsg = "This bot modified from the bot that was created by @LeoDJ\nSource code and contact information can be found at https://github.com/LeoDJ/telegram-counter-bot";
 
@@ -157,15 +159,18 @@ bot.hears(getRegExp('inccap'), ctx => {
     params = ctx.message.text.split(" ");
     if (params.length == 2 && !isNaN(params[1])) {
         delta = Math.floor(params[1]);
-    }
+    
+		var val = +dataService.getCounter(ctx.chat.id, counterId);
+		val += delta;
+		dataService.setCounter(ctx.chat.id, counterId, val);
 
-    var val = +dataService.getCounter(ctx.chat.id, counterId);
-    val += delta;
-    dataService.setCounter(ctx.chat.id, counterId, val);
-
-    var printCounterId = counterId ? "[" + counterId + "] " : "";
-    val = printCounterId + val;
-    logOutMsg(ctx, val);
+		var printCounterId = counterId ? "[" + counterId + "] " : "";
+		val = printCounterId + val;
+    } else {
+		val = incNMsg;
+	}
+	
+	logOutMsg(ctx, val);
     ctx.reply(val);
 });
 
@@ -175,18 +180,19 @@ bot.hears(getRegExp('incmask'), ctx => {
     var m = ctx.message.text.match(getRegExp(currentCommand))[0]; //filter command
     var counterId = 'mask'; //get id of command, return 0 if not found
 
-    var delta = 1;
-    params = ctx.message.text.split(" ");
     if (params.length == 2 && !isNaN(params[1])) {
         delta = Math.floor(params[1]);
-    }
+    
+		var val = +dataService.getCounter(ctx.chat.id, counterId);
+		val += delta;
+		dataService.setCounter(ctx.chat.id, counterId, val);
 
-    var val = +dataService.getCounter(ctx.chat.id, counterId);
-    val += delta;
-    dataService.setCounter(ctx.chat.id, counterId, val);
-
-    var printCounterId = counterId ? "[" + counterId + "] " : "";
-    val = printCounterId + val;
+		var printCounterId = counterId ? "[" + counterId + "] " : "";
+		val = printCounterId + val;
+    } else {
+		val = incNMsg;
+	}
+	
     logOutMsg(ctx, val);
     ctx.reply(val);
 });
@@ -201,14 +207,17 @@ bot.hears(getRegExp('incfilter'), ctx => {
     params = ctx.message.text.split(" ");
     if (params.length == 2 && !isNaN(params[1])) {
         delta = Math.floor(params[1]);
-    }
+    
+		var val = +dataService.getCounter(ctx.chat.id, counterId);
+		val += delta;
+		dataService.setCounter(ctx.chat.id, counterId, val);
 
-    var val = +dataService.getCounter(ctx.chat.id, counterId);
-    val += delta;
-    dataService.setCounter(ctx.chat.id, counterId, val);
-
-    var printCounterId = counterId ? "[" + counterId + "] " : "";
-    val = printCounterId + val;
+		var printCounterId = counterId ? "[" + counterId + "] " : "";
+		val = printCounterId + val;
+    } else {
+		val = incNMsg;
+	}
+	
     logOutMsg(ctx, val);
     ctx.reply(val);
 });
@@ -239,23 +248,31 @@ bot.hears(getRegExp('donatecap'), ctx => {
     params = ctx.message.text.split(" ");
     if (params.length == 2 && !isNaN(params[1])) {
         delta = Math.floor(params[1]);
-    }
-
+    
 	var donatecounterID = 'donatedcap' + today
 	
     var val = +dataService.getCounter(ctx.chat.id, counterId);
     val -= delta;
-    dataService.setCounter(ctx.chat.id, counterId, val);
-	
-	var val1 = +dataService.getCounter(ctx.chat.id, donatecounterID);
-	val1 += delta;
-	dataService.setCounter(ctx.chat.id, donatecounterID, val1)
+	if(val>0) {
+		dataService.setCounter(ctx.chat.id, counterId, val);
+		
+		var val1 = +dataService.getCounter(ctx.chat.id, donatecounterID);
+		val1 += delta;
+		dataService.setCounter(ctx.chat.id, donatecounterID, val1)
 
-    var printCounterId = counterId ? "[" + counterId + "] " : "";
-	var printCounterId1 = donatecounterID ? "; [" + donatecounterID + "] " : "";
-    val = printCounterId + val + printCounterId1 + val1;
-    logOutMsg(ctx, val);
-    ctx.reply(val);
+		var printCounterId = counterId ? "[" + counterId + "] " : "";
+		var printCounterId1 = donatecounterID ? "; [" + donatecounterID + "] " : "";
+		val = printCounterId + val + printCounterId1 + val1;
+	) else {
+        val = donateErrMsg;
+    }
+	} else {
+		val = incNMsg;
+	}
+	
+	logOutMsg(ctx, val);
+	ctx.reply(val);
+
 });
 
 bot.hears(getRegExp('donatemask'), ctx => {
@@ -283,21 +300,28 @@ bot.hears(getRegExp('donatemask'), ctx => {
     params = ctx.message.text.split(" ");
     if (params.length == 2 && !isNaN(params[1])) {
         delta = Math.floor(params[1]);
-    }
 
 	var donatecounterID = 'donatedmask' + today
 	
     var val = +dataService.getCounter(ctx.chat.id, counterId);
     val -= delta;
-    dataService.setCounter(ctx.chat.id, counterId, val);
-	
-	var val1 = +dataService.getCounter(ctx.chat.id, donatecounterID);
-	val1 += delta;
-	dataService.setCounter(ctx.chat.id, donatecounterID, val1)
+	if(val>0) {
+		dataService.setCounter(ctx.chat.id, counterId, val);
+		
+		var val1 = +dataService.getCounter(ctx.chat.id, donatecounterID);
+		val1 += delta;
+		dataService.setCounter(ctx.chat.id, donatecounterID, val1)
 
-    var printCounterId = counterId ? "[" + counterId + "] " : "";
-	var printCounterId1 = donatecounterID ? "; [" + donatecounterID + "] " : "";
-    val = printCounterId + val + printCounterId1 + val1;
+		var printCounterId = counterId ? "[" + counterId + "] " : "";
+		var printCounterId1 = donatecounterID ? "; [" + donatecounterID + "] " : "";
+		val = printCounterId + val + printCounterId1 + val1;
+	) else {
+        val = donateErrMsg;
+    }
+	} else {
+		val = incNMsg;
+	}
+	
     logOutMsg(ctx, val);
     ctx.reply(val);
 });
@@ -327,21 +351,28 @@ bot.hears(getRegExp('donatefilter'), ctx => {
     params = ctx.message.text.split(" ");
     if (params.length == 2 && !isNaN(params[1])) {
         delta = Math.floor(params[1]);
-    }
 
 	var donatecounterID = 'donatedfilter' + today
 
     var val = +dataService.getCounter(ctx.chat.id, counterId);
     val -= delta;
-    dataService.setCounter(ctx.chat.id, counterId, val);
-	
-	var val1 = +dataService.getCounter(ctx.chat.id, donatecounterID);
-	val1 += delta;
-	dataService.setCounter(ctx.chat.id, donatecounterID, val1)
+	if(val>0) {
+		dataService.setCounter(ctx.chat.id, counterId, val);
+		
+		var val1 = +dataService.getCounter(ctx.chat.id, donatecounterID);
+		val1 += delta;
+		dataService.setCounter(ctx.chat.id, donatecounterID, val1)
 
-    var printCounterId = counterId ? "[" + counterId + "] " : "";
-	var printCounterId1 = donatecounterID ? "; [" + donatecounterID + "] " : "";
-    val = printCounterId + val + printCounterId1 + val1;
+		var printCounterId = counterId ? "[" + counterId + "] " : "";
+		var printCounterId1 = donatecounterID ? "; [" + donatecounterID + "] " : "";
+		val = printCounterId + val + printCounterId1 + val1;
+	) else {
+        val = donateErrMsg;
+    }
+	} else {
+		val = incNMsg;
+	}
+	
     logOutMsg(ctx, val);
     ctx.reply(val);
 });
