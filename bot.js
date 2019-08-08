@@ -263,7 +263,7 @@ bot.hears(getRegExp('donatecap'), ctx => {
 		var printCounterId = counterId ? "[" + counterId + "] " : "";
 		var printCounterId1 = donatecounterID ? "; [" + donatecounterID + "] " : "";
 		val = printCounterId + val + printCounterId1 + val1;
-	) else {
+	} else {
         val = donateErrMsg;
     }
 	} else {
@@ -315,7 +315,7 @@ bot.hears(getRegExp('donatemask'), ctx => {
 		var printCounterId = counterId ? "[" + counterId + "] " : "";
 		var printCounterId1 = donatecounterID ? "; [" + donatecounterID + "] " : "";
 		val = printCounterId + val + printCounterId1 + val1;
-	) else {
+	} else {
         val = donateErrMsg;
     }
 	} else {
@@ -366,7 +366,7 @@ bot.hears(getRegExp('donatefilter'), ctx => {
 		var printCounterId = counterId ? "[" + counterId + "] " : "";
 		var printCounterId1 = donatecounterID ? "; [" + donatecounterID + "] " : "";
 		val = printCounterId + val + printCounterId1 + val1;
-	) else {
+	} else {
         val = donateErrMsg;
     }
 	} else {
