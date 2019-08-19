@@ -203,12 +203,28 @@ bot.command('getall', ctx => {
 							if(err6){
 								throw err6;
 							}
-							ctx.reply("[caps remaining] " + (res1.rows[0].materialactiontotal-res4.rows[0].materialactiontotal) + "\n"
-							+"[caps donated] " + (res4.rows[0].materialactiontotal) + "\n"
-							+"[masks remaining] " + (res2.rows[0].materialactiontotal-res5.rows[0].materialactiontotal) + "\n"
-							+"[masks donated] " + (res5.rows[0].materialactiontotal) + "\n"
-							+"[filters remaining] " + (res3.rows[0].materialactiontotal-res6.rows[0].materialactiontotal) + "\n"
-							+"[filters donated] " + (res6.rows[0].materialactiontotal));
+							queryString = 'select sum(CASE WHEN "materialList"."materialName" = \'google\' AND "materialList"."materialAction" = \'inc\' THEN "materialList"."materialAmount" ELSE 0 END) as materialActiontotal FROM public."materialList"';
+
+							pool.query(queryString, function(err7,res7) {
+								if(err7){
+									throw err7;
+								}							
+								queryString = 'select sum(CASE WHEN "materialList"."materialName" = \'google\' AND "materialList"."materialAction" = \'donate\' THEN "materialList"."materialAmount" ELSE 0 END) as materialActiontotal FROM public."materialList"';
+
+								pool.query(queryString, function(err6,res6) {
+									if(err8){
+										throw err8;
+									}
+									ctx.reply("[caps remaining] " + (res1.rows[0].materialactiontotal-res4.rows[0].materialactiontotal) + "\n"
+									+"[caps donated] " + (res4.rows[0].materialactiontotal) + "\n"
+									+"[masks remaining] " + (res2.rows[0].materialactiontotal-res5.rows[0].materialactiontotal) + "\n"
+									+"[masks donated] " + (res5.rows[0].materialactiontotal) + "\n"
+									+"[filters remaining] " + (res3.rows[0].materialactiontotal-res6.rows[0].materialactiontotal) + "\n"
+									+"[filters donated] " + (res6.rows[0].materialactiontotal));
+									+"[googles remaining] " + (res7.rows[0].materialactiontotal-res6.rows[0].materialactiontotal) + "\n"
+									+"[googles donated] " + (res6.rows[0].materialactiontotal));
+								});	
+							});	
 						});			
 					});			
 				});			
@@ -242,7 +258,7 @@ bot.hears(getRegExp('inccap'), ctx => {
         delta = Math.floor(params[1]);
     
 		if (delta < 0) {
-			ctx.reply(`Please enter positive numbers.`);
+			ctx.reply(`Please enter positive numbers, e.g. /inccap 5.`);
 		} else {
 // reference INSERT INTO "materialList" values(18,'DLLM','test',20,'inc',1999,09,28);
 				queryString = 'INSERT INTO "materialList" values(\''+ctx.message.from.id+'\',\''+ctx.message.from.first_name+'\',\''+counterId+'\','+delta+',\'inc'+'\','+yyyy+','+mm+','+dd+')';
@@ -254,6 +270,59 @@ bot.hears(getRegExp('inccap'), ctx => {
 					});	
 // reference select sum(CASE WHEN "materialList"."materialName" = 'cap' THEN "materialList"."materialAmount" ELSE 0 END) as materialActiontotal FROM public."materialList";
 				queryString = 'select sum(CASE WHEN "materialList"."materialName" = \'cap\' AND "materialList"."materialAction" = \'inc\' THEN "materialList"."materialAmount" ELSE 0 END) as materialActiontotal FROM public."materialList"';
+// test with	ctx.reply(queryString);
+
+				pool.query(queryString, function(err,res) {
+						if(err){
+							throw err;
+						}
+						ctx.reply("[" + counterId + "] " + res.rows[0].materialactiontotal);
+				});			
+	
+		}
+    } else {
+		ctx.reply(incNMsg);
+	}
+	
+});
+
+bot.hears(getRegExp('incgoogle'), ctx => {
+    logMsg(ctx);
+    currentCommand = 'incgoogle';
+    var m = ctx.message.text.match(getRegExp(currentCommand))[0]; //filter command
+    var counterId = 'google'; //get id of command, return 0 if not found
+	//get today
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth()+1; //January is 0!
+	var yyyy = today.getFullYear();
+	
+	if(dd<10) {
+		dd = '0'+dd
+	} 
+
+	if(mm<10) {
+		mm = '0'+mm
+	} 
+
+    var delta = 1;
+	params = ctx.message.text.split(" ");
+    if (params.length == 2 && !isNaN(params[1])) {
+        delta = Math.floor(params[1]);
+    
+		if (delta < 0) {
+			ctx.reply(`Please enter positive numbers, e.g. /incgoogle 5.`);
+		} else {
+// reference INSERT INTO "materialList" values(18,'DLLM','test',20,'inc',1999,09,28);
+				queryString = 'INSERT INTO "materialList" values(\''+ctx.message.from.id+'\',\''+ctx.message.from.first_name+'\',\''+counterId+'\','+delta+',\'inc'+'\','+yyyy+','+mm+','+dd+')';
+
+				pool.query(queryString, function(err,res) {
+						if(err){
+							throw err;
+						}
+					});	
+// reference select sum(CASE WHEN "materialList"."materialName" = 'cap' THEN "materialList"."materialAmount" ELSE 0 END) as materialActiontotal FROM public."materialList";
+				queryString = 'select sum(CASE WHEN "materialList"."materialName" = \'google\' AND "materialList"."materialAction" = \'inc\' THEN "materialList"."materialAmount" ELSE 0 END) as materialActiontotal FROM public."materialList"';
 // test with	ctx.reply(queryString);
 
 				pool.query(queryString, function(err,res) {
@@ -295,7 +364,7 @@ bot.hears(getRegExp('incmask'), ctx => {
         delta = Math.floor(params[1]);
     
 		if (delta < 0) {
-			ctx.reply(`Please enter positive numbers.`);
+			ctx.reply(`Please enter positive numbers, e.g. /incmask 5.`);
 		} else {
 // reference INSERT INTO "materialList" values(18,'DLLM','test',20,'inc',1999,09,28);
 				queryString = 'INSERT INTO "materialList" values(\''+ctx.message.from.id+'\',\''+ctx.message.from.first_name+'\',\''+counterId+'\','+delta+',\'inc'+'\','+yyyy+','+mm+','+dd+')';
@@ -346,7 +415,7 @@ bot.hears(getRegExp('incfilter'), ctx => {
         delta = Math.floor(params[1]);
     
 		if (delta < 0) {
-			ctx.reply(`Please enter positive numbers.`);
+			ctx.reply(`Please enter positive numbers, e.g. /incfilter 5.`);
 		} else {
 // reference INSERT INTO "materialList" values(18,'DLLM','test',20,'inc',1999,09,28);
 				queryString = 'INSERT INTO "materialList" values(\''+ctx.message.from.id+'\',\''+ctx.message.from.first_name+'\',\''+counterId+'\','+delta+',\'inc'+'\','+yyyy+','+mm+','+dd+')';
@@ -400,7 +469,7 @@ bot.hears(getRegExp('donatecap'), ctx => {
         delta = Math.floor(params[1]);
     
 		if (delta < 0) {
-				ctx.reply(`Please enter positive numbers.`);
+				ctx.reply(`Please enter positive numbers, e.g. /donatecap 5.`);
 		} else {
 //make sure the donation amount is more than stock
 				queryString = 'select sum(CASE WHEN "materialList"."materialName" = \'cap\' AND "materialList"."materialAction" = \'inc\' THEN "materialList"."materialAmount" ELSE 0 END) as materialActiontotal FROM public."materialList"';
@@ -440,6 +509,73 @@ bot.hears(getRegExp('donatecap'), ctx => {
 });
 
 
+bot.hears(getRegExp('donategoogle'), ctx => {
+    logMsg(ctx);
+    currentCommand = 'donategoogle';
+    var m = ctx.message.text.match(getRegExp(currentCommand))[0]; //filter command
+    var counterId = 'google'; //get id of command, return 0 if not found
+//get today
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth()+1; //January is 0!
+	var yyyy = today.getFullYear();
+	
+	if(dd<10) {
+		dd = '0'+dd
+	} 
+
+	if(mm<10) {
+		mm = '0'+mm
+	} 
+
+	today = yyyy + mm + dd;
+
+    var delta = 1;
+    params = ctx.message.text.split(" ");
+    if (params.length == 2 && !isNaN(params[1])) {
+        delta = Math.floor(params[1]);
+    
+		if (delta < 0) {
+				ctx.reply(`Please enter positive numbers, e.g. /donategoogle 5.`);
+		} else {
+//make sure the donation amount is more than stock
+				queryString = 'select sum(CASE WHEN "materialList"."materialName" = \'google\' AND "materialList"."materialAction" = \'inc\' THEN "materialList"."materialAmount" ELSE 0 END) as materialActiontotal FROM public."materialList"';
+
+				pool.query(queryString, function(err,res) {
+						if(err){
+							throw err;
+						}
+						if((delta - res.rows[0].materialactiontotal) >0){
+							ctx.reply(donateErrMsg);
+						} else {
+//record donation
+							queryString = 'INSERT INTO "materialList" values(\''+ctx.message.from.id+'\',\''+ctx.message.from.first_name+'\',\''+counterId+'\','+delta+',\'donate'+'\','+yyyy+','+mm+','+dd+')';
+
+							pool.query(queryString, function(err1,res1) {
+								if(err1){
+									throw err1;
+								}
+							});
+//bot reply with the right amount.
+							queryString = 'select sum(CASE WHEN "materialList"."materialName" = \'google\' AND "materialList"."materialAction" = \'donate\' THEN "materialList"."materialAmount" ELSE 0 END) as materialActiontotal FROM public."materialList"';
+
+							pool.query(queryString, function(err2,res2) {
+								if(err){
+									throw err;
+								}
+								ctx.reply("[googles donated] " + res2.rows[0].materialactiontotal + ", [googles remaining] " + (res.rows[0].materialactiontotal - res2.rows[0].materialactiontotal));
+							});			
+
+						}
+						
+				});
+		}		
+	} else {
+		ctx.reply(incNMsg);
+	}
+});
+
+
 bot.hears(getRegExp('donatemask'), ctx => {
     logMsg(ctx);
     currentCommand = 'donatemask';
@@ -467,7 +603,7 @@ bot.hears(getRegExp('donatemask'), ctx => {
         delta = Math.floor(params[1]);
 
 		if (delta < 0) {
-				ctx.reply(`Please enter positive numbers.`);
+				ctx.reply(`Please enter positive numbers, e.g. /donatemask 5.`);
 		} else {
 //make sure the donation amount is more than stock
 				queryString = 'select sum(CASE WHEN "materialList"."materialName" = \'mask\' AND "materialList"."materialAction" = \'inc\' THEN "materialList"."materialAmount" ELSE 0 END) as materialActiontotal FROM public."materialList"';
@@ -534,7 +670,7 @@ bot.hears(getRegExp('donatefilter'), ctx => {
         delta = Math.floor(params[1]);
 
 		if (delta < 0) {
-				ctx.reply(`Please enter positive numbers.`);
+				ctx.reply(`Please enter positive numbers, e.g. /donatefilter 5.`);
 		} else {
 //make sure the donation amount is more than stock
 				queryString = 'select sum(CASE WHEN "materialList"."materialName" = \'filter\' AND "materialList"."materialAction" = \'inc\' THEN "materialList"."materialAmount" ELSE 0 END) as materialActiontotal FROM public."materialList"';
