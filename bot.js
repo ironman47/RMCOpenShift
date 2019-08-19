@@ -211,7 +211,7 @@ bot.command('getall', ctx => {
 								}							
 								queryString = 'select sum(CASE WHEN "materialList"."materialName" = \'google\' AND "materialList"."materialAction" = \'donate\' THEN "materialList"."materialAmount" ELSE 0 END) as materialActiontotal FROM public."materialList"';
 
-								pool.query(queryString, function(err6,res6) {
+								pool.query(queryString, function(err8,res8) {
 									if(err8){
 										throw err8;
 									}
@@ -220,9 +220,9 @@ bot.command('getall', ctx => {
 									+"[masks remaining] " + (res2.rows[0].materialactiontotal-res5.rows[0].materialactiontotal) + "\n"
 									+"[masks donated] " + (res5.rows[0].materialactiontotal) + "\n"
 									+"[filters remaining] " + (res3.rows[0].materialactiontotal-res6.rows[0].materialactiontotal) + "\n"
-									+"[filters donated] " + (res6.rows[0].materialactiontotal)
-									+"[googles remaining] " + (res7.rows[0].materialactiontotal-res6.rows[0].materialactiontotal) + "\n"
-									+"[googles donated] " + (res6.rows[0].materialactiontotal));
+									+"[filters donated] " + (res6.rows[0].materialactiontotal) + "\n"
+									+"[googles remaining] " + (res7.rows[0].materialactiontotal-res8.rows[0].materialactiontotal) + "\n"
+									+"[googles donated] " + (res8.rows[0].materialactiontotal));
 								});	
 							});	
 						});			
