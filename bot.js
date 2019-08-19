@@ -220,7 +220,7 @@ bot.command('getall', ctx => {
 									+"[masks remaining] " + (res2.rows[0].materialactiontotal-res5.rows[0].materialactiontotal) + "\n"
 									+"[masks donated] " + (res5.rows[0].materialactiontotal) + "\n"
 									+"[filters remaining] " + (res3.rows[0].materialactiontotal-res6.rows[0].materialactiontotal) + "\n"
-									+"[filters donated] " + (res6.rows[0].materialactiontotal))
+									+"[filters donated] " + (res6.rows[0].materialactiontotal)
 									+"[googles remaining] " + (res7.rows[0].materialactiontotal-res6.rows[0].materialactiontotal) + "\n"
 									+"[googles donated] " + (res6.rows[0].materialactiontotal));
 								});	
